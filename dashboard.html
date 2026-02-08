@@ -1136,7 +1136,8 @@
 
     <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script>
-        const API_URL = 'https://phatdevauthvip.netlify.app/.netlify/functions/auth';
+        const API_PRIMARY = 'https://severkeyvip-kdqp.vercel.app/';
+const API_BACKUP  = 'https://phatdevauthvip.netlify.app/.netlify/functions/auth';
         let currentUserId = '';
         let currentUserRole = '';
         let isAdminUser = false;
@@ -1144,7 +1145,6 @@
         let currentApplications = [];
         let currentKeys = [];
 
-        // Toast notifications
         function showToast(message, type = 'success') {
             Toastify({
                 text: message,
@@ -1158,91 +1158,70 @@
             }).showToast();
         }
 
-        // Initialize on page load
         document.addEventListener('DOMContentLoaded', function() {
-            // Check if user is logged in
             currentUserId = localStorage.getItem('auth_user_id');
             currentUserRole = localStorage.getItem('auth_role');
             isAdminUser = localStorage.getItem('auth_isAdmin') === 'true';
             isSupportUser = localStorage.getItem('auth_isSupport') === 'true';
             
-            console.log('Auth check:', { currentUserId, currentUserRole, isAdminUser, isSupportUser });
             
             if (!currentUserId || !currentUserRole) {
-                console.log('No auth found, redirecting to login');
                 window.location.href = 'index.html';
                 return;
             }
 
-            // Check session timeout (24 hours)
             const timestamp = localStorage.getItem('auth_timestamp');
             const hoursDiff = (Date.now() - timestamp) / (1000 * 60 * 60);
             if (hoursDiff > 24) {
-                console.log('Session expired, clearing storage');
                 localStorage.clear();
                 window.location.href = 'index.html';
                 return;
             }
 
-            // Set user info
-            // Set user info
 document.getElementById('userName').textContent = `User: ${currentUserId}`;
 
-// Dòng này chính là thủ phạm, hãy thêm dấu // vào đầu để vô hiệu hóa nó:
-// document.getElementById('userAvatar').textContent = currentUserRole === 'admin' ? 'A' : 'S'; 
 
 
-            // Setup event listeners
             setupEventListeners();
             
-            // Load dashboard data
             loadDashboardData();
             
-            // Load applications for filter
             loadApplicationsForFilter();
             
             loadApplications();
             
-            console.log('Dashboard initialized for user:', currentUserId);
         });
 
         function setupEventListeners() {
     const menuToggle = document.getElementById('menuToggle');
     const sidebar = document.getElementById('sidebar');
 
-    // 1. Xử lý Menu items (Chuyển trang & Tự đóng sidebar trên mobile)
     document.querySelectorAll('.menu-item').forEach(item => {
         item.addEventListener('click', function(e) {
             e.preventDefault();
             const section = this.getAttribute('data-section');
             
-            // Update active menu
             document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active'));
             this.classList.add('active');
             
-            // Show selected section
             showSection(section);
 
-            // Tự động đóng sidebar sau khi chọn mục (dành cho mobile)
             if (window.innerWidth <= 992) {
                 sidebar.classList.remove('active');
             }
         });
     });
 
-    // 2. Logout
     document.getElementById('logoutBtn').addEventListener('click', function() {
         localStorage.clear(); // Xóa sạch cho nhanh
         window.location.href = 'index.html';
     });
 
-    // 3. Menu toggle (Sửa lỗi không đóng được)
     menuToggle.addEventListener('click', function(e) {
         e.stopPropagation(); // Ngăn sự kiện lan ra ngoài gây đóng menu ngay lập tức
         sidebar.classList.toggle('active');
     });
 
-    // 4. Click ra vùng ngoài Sidebar để đóng menu (Trải nghiệm người dùng tốt hơn)
     document.addEventListener('click', function(e) {
         const isClickInsideSidebar = sidebar.contains(e.target);
         const isClickOnToggle = menuToggle.contains(e.target);
@@ -1254,35 +1233,27 @@ document.getElementById('userName').textContent = `User: ${currentUserId}`;
 }
 
         function showSection(section) {
-    console.log('🔄 Showing section:', section);
     
     if (section === 'dashboard') {
-        // CÁCH 1: Ẩn tất cả TRỪ dashboard và các section con của nó
         document.querySelectorAll('.content-section').forEach(el => {
-            // Chỉ ẩn các section KHÔNG phải là con của dashboardSection
             if (!el.closest('#dashboardSection') && el.id !== 'dashboardSection') {
                 el.style.display = 'none';
             }
         });
         
-        // Show dashboard và các section con
         document.getElementById('dashboardSection').style.display = 'block';
         
-        // Hiện lại các bảng con bên trong dashboard
         document.querySelectorAll('#dashboardSection .content-section').forEach(el => {
             el.style.display = 'block';
         });
     } else {
-        // Ẩn tất cả (cho các section khác)
         document.querySelectorAll('.content-section').forEach(el => {
             el.style.display = 'none';
         });
         
-        // Show section được chọn
         document.getElementById(`${section}Section`).style.display = 'block';
     }
     
-    // Update page title
     const titles = {
         'dashboard': 'Dashboard',
         'applications': 'Applications',
@@ -1295,8 +1266,6 @@ document.getElementById('userName').textContent = `User: ${currentUserId}`;
     
     document.getElementById('pageTitle').textContent = titles[section];
     
-    // Load section data
-    console.log('📋 Loading data for section:', section);
     
     if (section === 'dashboard') {
         loadDashboardData();
@@ -1311,47 +1280,53 @@ document.getElementById('userName').textContent = `User: ${currentUserId}`;
         loadSupports();
     }
     
-    console.log('✅ showSection completed');
 }
         async function callAPI(action, data = {}) {
-    console.log(`📤 Calling API: ${action}`, data);
-    
-    // Tạo object payload để gửi đi
-    // Nếu trong 'data' đã có 'user_id', nó sẽ giữ nguyên 'user_id' đó.
-    // Nếu không có, nó mới lấy 'currentUserId' làm mặc định.
+
     const payload = {
         action,
-        user_id: currentUserId, // Đặt giá trị mặc định của admin trước
-        ...data                // Sau đó mới trải các dữ liệu khác ra (nếu có user_id mới sẽ ghi đè tại đây)
+        user_id: currentUserId,
+        ...data
     };
 
-    try {
-        const response = await fetch(API_URL, {
+    // ===== hàm gọi chung =====
+    async function request(url) {
+        const res = await fetch(url, {
             method: 'POST',
-            headers: { 
+            headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(payload) // Gửi payload đã xử lý
+            body: JSON.stringify(payload)
         });
 
-        console.log('📥 Response status:', response.status);
-        
-        if (!response.ok) {
-            const errorText = await response.text();
-            console.error('❌ Response error:', errorText);
-            throw new Error(`HTTP ${response.status}: ${errorText.substring(0, 100)}`);
+        if (!res.ok) {
+            const text = await res.text();
+            throw new Error(`HTTP ${res.status}: ${text.substring(0, 100)}`);
         }
 
-        const result = await response.json();
-        console.log('✅ API Result:', result);
-        return result;
-    } catch (error) {
-        console.error('❌ API Error:', error);
+        return await res.json();
+    }
+
+    try {
+        // ===== THỬ API CHÍNH =====
+        console.log('Call primary API');
+        return await request(API_PRIMARY);
+
+    } catch (err) {
+        console.warn(' Primary fail → fallback', err.message);
+    }
+
+    try {
+        // ===== FALLBACK API =====
+        console.log(' Call backup API');
+        return await request(API_BACKUP);
+
+    } catch (err) {
+        console.error(' Backup cũng fail', err.message);
         showToast('Lỗi kết nối đến server', 'error');
-        throw error;
+        throw err;
     }
 }
-// Hàm này chạy ngay khi mở Dashboard
 async function checkCurrentSession() {
     const userId = localStorage.getItem('auth_user_id');
     
@@ -1361,37 +1336,29 @@ async function checkCurrentSession() {
     }
 
     try {
-        // Gọi API kiểm tra lại quyền của user hiện tại
         const response = await callAPI('check_support', { user_id: userId });
         
-        // Nếu Server bảo không phải support nữa hoặc success: false
         if (!response.success || !response.is_support) {
             alert('Quyền truy cập của bạn đã bị thu hồi!');
             localStorage.clear(); // Xóa sạch dấu vết
             window.location.href = 'index.html'; // Đá ra trang login
         }
     } catch (error) {
-        console.error('Không thể xác thực phiên đăng nhập');
     }
 }
 
-// Gọi hàm kiểm tra ngay lập tức
 checkCurrentSession();
 
         async function loadDashboardData() {
-            console.log('🔄 Loading dashboard data...');
             
             try {
-                // Load stats
                 const appsResult = await callAPI('get_apps', { user_id: currentUserId });
                 if (appsResult.success) {
                     const apps = appsResult.applications || [];
                     document.getElementById('totalApps').textContent = apps.length;
                     currentApplications = apps;
                     
-                    console.log(`📊 Loaded ${apps.length} applications`);
                     
-                    // Load recent apps
                     const recentApps = apps.slice(0, 5);
                     const appsBody = document.getElementById('recentAppsBody');
                     appsBody.innerHTML = '';
@@ -1432,10 +1399,8 @@ checkCurrentSession();
                         });
                     }
                 } else {
-                    console.error('Failed to load applications:', appsResult.message);
                 }
 
-                // Load keys
                 const keysResult = await callAPI('get_keys', { 
                     user_id: currentUserId,
                     api: currentApplications[0]?.api_key || ''
@@ -1446,9 +1411,7 @@ checkCurrentSession();
                     document.getElementById('totalKeys').textContent = keys.length;
                     currentKeys = keys;
                     
-                    console.log(`🔑 Loaded ${keys.length} keys`);
                     
-                    // Load recent keys
                     const recentKeys = keys.slice(0, 11);
                     const keysBody = document.getElementById('recentKeysBody');
                     keysBody.innerHTML = '';
@@ -1491,17 +1454,13 @@ checkCurrentSession();
                         });
                     }
                 } else {
-                    console.error('Failed to load keys:', keysResult.message);
                 }
 
-                // Update other stats
                 document.getElementById('totalUsers').textContent = '25';
                 document.getElementById('activeKeys').textContent = currentKeys.filter(k => !k.banned && new Date(k.expires_at) > new Date()).length;
 
-                console.log('✅ Dashboard data loaded successfully');
 
             } catch (error) {
-                console.error('❌ Error loading dashboard:', error);
                 showToast('Lỗi khi tải dữ liệu dashboard', 'error');
             }
         }
@@ -1524,7 +1483,6 @@ checkCurrentSession();
         }
 
         async function loadApplications() {
-            console.log('🔄 Loading applications...');
             
             try {
                 const result = await callAPI('get_apps', { user_id: currentUserId });
@@ -1576,7 +1534,6 @@ checkCurrentSession();
                     showToast('Failed to load applications: ' + (result.message || 'Unknown error'), 'error');
                 }
             } catch (error) {
-                console.error('❌ Error loading applications:', error);
                 showToast('Lỗi khi tải danh sách applications', 'error');
             }
         }
@@ -1597,7 +1554,6 @@ checkCurrentSession();
                         select.appendChild(option);
                     });
                     
-                    // Also populate key creation modal
                     const keyAppSelect = document.getElementById('keyApp');
                     keyAppSelect.innerHTML = '<option value="">-- Select Application --</option>';
                     
@@ -1609,15 +1565,12 @@ checkCurrentSession();
                     });
                 }
             } catch (error) {
-                console.error('❌ Error loading applications for filter:', error);
             }
         }
 
         async function loadKeys(retry = 0, maxRetry = 3) {
-    console.log(`🔄 Loading keys... (retry ${retry})`);
     const tbody = document.getElementById('keysTableBody');
 
-    // ✅ LOADER
     tbody.innerHTML = `
         <tr>
             <td colspan="8" style="text-align:center; padding:30px;">
@@ -1664,7 +1617,6 @@ checkCurrentSession();
             });
         }
         
-        // ❌ XÓA LOADER
         tbody.innerHTML = '';
         
         if (keys.length === 0) {
@@ -1715,16 +1667,13 @@ checkCurrentSession();
         });
 
     } catch (error) {
-        console.warn('⚠️ Load keys failed:', error);
+        console.warn(' Load keys failed:', error);
 
         if (retry < maxRetry) {
-            console.log(`🔁 Retry loadKeys (${retry + 1}/${maxRetry})`);
             setTimeout(() => loadKeys(retry + 1, maxRetry), 1000); // delay 1s
             return;
         }
 
-        // ❌ HẾT RETRY → BÁO LỖI
-        console.error('❌ Load keys failed after retries');
         showToast('Không thể tải dữ liệu, vui lòng thử lại sau', 'error');
 
         tbody.innerHTML = `
@@ -1742,10 +1691,8 @@ checkCurrentSession();
         return;
     }
     
-    console.log('🔄 Loading supports...');
     const tbody = document.getElementById('supportsTableBody');
 
-    // ✅ LOADER TRÒN
     tbody.innerHTML = `
         <tr>
             <td colspan="5" style="text-align:center; padding:30px;">
@@ -1807,10 +1754,8 @@ checkCurrentSession();
             showToast('Failed to load supports: ' + (result.message || 'Unknown error'), 'error');
         }
     } catch (error) {
-        console.error('❌ Error loading supports:', error);
         showToast('Lỗi khi tải danh sách support', 'error');
 
-        // ❌ LOADER → ERROR
         tbody.innerHTML = `
             <tr>
                 <td colspan="5" style="text-align:center; color:red;">
@@ -1823,10 +1768,7 @@ checkCurrentSession();
 
 
         async function loadUsers() {
-            console.log('🔄 Loading users...');
             
-            // This would need a dedicated API endpoint
-            // For now, we'll show a placeholder
             const tbody = document.getElementById('usersTableBody');
             tbody.innerHTML = `
                 <tr>
@@ -1839,7 +1781,6 @@ checkCurrentSession();
             `;
         }
 
-        // Modal Functions
         function showCreateAppModal() {
             document.getElementById('createAppModal').style.display = 'flex';
             document.getElementById('appName').focus();
@@ -1889,12 +1830,10 @@ checkCurrentSession();
                     showToast('Đã tạo application thành công!', 'success');
                     closeModal('createAppModal');
                     
-                    // Clear form
                     document.getElementById('appName').value = '';
                     document.getElementById('appOwner').value = '';
                     document.getElementById('appDesc').value = '';
                     
-                    // Refresh data
                     loadDashboardData();
                     loadApplications();
                     loadApplicationsForFilter();
@@ -1958,24 +1897,20 @@ checkCurrentSession();
                     showToast(`Đã tạo ${createdKeys.length}/${quantity} keys thành công!`, 'success');
                     closeModal('createKeyModal');
                     
-                    // Clear form
                     document.getElementById('keyPrefix').value = '';
                     document.getElementById('keyDays').value = '30';
                     document.getElementById('keyDevices').value = '1';
                     document.getElementById('keyQuantity').value = '1';
                     
-                    // Refresh data
                     loadDashboardData();
                     loadKeys();
                     
-                    // Show created keys
                     if (createdKeys.length > 0) {
                         let keysText = createdKeys.join('\n');
                         if (confirm(`Đã tạo ${createdKeys.length} keys thành công!\n\nBạn có muốn sao chép không?`)) {
     secureCopy(keysText)
         .then(() => showToast('Đã sao chép vào bộ nhớ tạm!', 'success'))
         .catch(() => {
-            console.error('Không thể copy tự động');
             alert("Không thể tự động copy. Vui lòng copy thủ công:\n\n" + keysText);
         });
 }
@@ -1986,10 +1921,8 @@ checkCurrentSession();
                 }
                 
             } catch (error) {
-                // Thay vì chỉ báo 1 câu, hãy báo chi tiết lỗi thực tế
 const errorDetail = error.response?.data?.message || error.message || 'Không rõ nguyên nhân';
 showToast(`Lỗi: ${errorDetail}`, 'error');
-console.error('Full Error:', error); // Vẫn in ra console để admin kiểm tra
 
             } finally {
                 btn.disabled = false;
@@ -1998,15 +1931,12 @@ console.error('Full Error:', error); // Vẫn in ra console để admin kiểm t
             }
         }
         function secureCopy(text) {
-    // Cách 1: Dùng API hiện đại (Chỉ chạy trên HTTPS)
     if (navigator.clipboard && window.isSecureContext) {
         return navigator.clipboard.writeText(text);
     } else {
-        // Cách 2: Cách cổ điển (Chạy được cả trên HTTP và mọi thiết bị)
         return new Promise((resolve, reject) => {
             const textArea = document.createElement("textarea");
             textArea.value = text;
-            // Tránh làm màn hình bị nhảy khi append
             textArea.style.position = "fixed";
             textArea.style.left = "-999999px";
             textArea.style.top = "-999999px";
@@ -2056,10 +1986,8 @@ console.error('Full Error:', error); // Vẫn in ra console để admin kiểm t
                     showToast('Đã thêm support thành công!', 'success');
                     closeModal('addSupportModal');
                     
-                    // Clear form
                     document.getElementById('supportUserId').value = '';
                     
-                    // Refresh data
                     loadSupports();
                 } else {
                     showToast(result.message || 'Lỗi khi thêm support', 'error');
@@ -2275,14 +2203,11 @@ console.error('Full Error:', error); // Vẫn in ra console để admin kiểm t
             }
         }
 function filterKeysTable() {
-    // Lấy giá trị nhập vào
     const filter = document.getElementById("keySearchInput").value.toUpperCase();
-    // Lấy bảng (Dùng id keysTableBody để lọc chính xác các hàng dữ liệu)
     const tbody = document.getElementById("keysTableBody");
     const tr = tbody.getElementsByTagName("tr");
 
     for (let i = 0; i < tr.length; i++) {
-        // Cột 0 là Key, Cột 6 là HWID (theo cấu trúc bảng của bạn)
         const tdKey = tr[i].getElementsByTagName("td")[0];
         const tdHWID = tr[i].getElementsByTagName("td")[6];
 
@@ -2290,7 +2215,6 @@ function filterKeysTable() {
             const textKey = tdKey.textContent || tdKey.innerText;
             const textHWID = tdHWID.textContent || tdHWID.innerText;
             
-            // Nếu tìm thấy trong cột Key HOẶC cột HWID thì hiện, không thì ẩn
             if (textKey.toUpperCase().indexOf(filter) > -1 || textHWID.toUpperCase().indexOf(filter) > -1) {
                 tr[i].style.display = "";
             } else {
@@ -2327,7 +2251,6 @@ function filterKeysTable() {
             showToast('Settings saved successfully!', 'success');
         }
 
-        // Close modal when clicking outside
         window.onclick = function(event) {
             if (event.target.classList.contains('modal')) {
                 event.target.style.display = 'none';
