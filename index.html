@@ -117,6 +117,8 @@
             color: white;
             width: 100%;
         }
+        
+
 
         .btn-primary:hover {
             transform: translateY(-2px);
@@ -216,66 +218,78 @@
         </form>
         
         <div class="role-info">
-            <strong><i class="fas fa-info-circle"></i> Thông tin phân quyền:</strong>
-            <ul>
-                <li><strong>Admin:</strong> Toàn quyền quản lý hệ thống</li>
-                <li><strong>Support:</strong> Chỉ quản lý apps/keys của mình</li>
-                <li><strong>User:</strong> Không có quyền truy cập</li>
-            </ul>
-        </div>
-    </div>
+    <strong><i class="fas fa-shield-halved"></i> Thông tin phân quyền:</strong>
+    <ul>
+        <li><i class="fas fa-crown" style="color: #f8961e;"></i> <strong>Admin:</strong> Toàn quyền quản lý hệ thống</li>
+        <li><i class="fas fa-user-gear" style="color: #4361ee;"></i> <strong>Support:</strong> Chỉ quản lý apps/keys của mình</li>
+        <li><i class="fas fa-user-slash" style="color: #f72585;"></i> <strong>User:</strong> Không có quyền truy cập</li>
+    </ul>
+</div>
+
 
     <script>
-        const API_URL = 'https://phatdevauthvip.netlify.app/.netlify/functions/auth'
+        const API_BACKUP = 'https://phatdevauthvip.netlify.app/.netlify/functions/auth';
+        const API_PRIMARY  = 'https://severkeyvip-kdqp.vercel.app/';
         
         function showAlert(message, type = 'danger') {
-            const alert = document.getElementById('alertMessage');
-            alert.textContent = message;
-            alert.className = `alert alert-${type}`;
-            alert.style.display = 'block';
-        }
+    const alert = document.getElementById('alertMessage');
+    alert.innerHTML = message; 
+    alert.className = `alert alert-${type}`;
+    alert.style.display = 'block';
+}
+
 
         function hideAlert() {
             document.getElementById('alertMessage').style.display = 'none';
         }
+async function callAPI(action, data = {}) {
 
-        async function callAPI(action, data = {}) {
-            try {
-                console.log('📤 Calling API:', action, data);
-                
-                const response = await fetch(API_URL, {
-                    method: 'POST',
-                    headers: { 
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ action, ...data })
-                });
+    try {
+        const response = await fetch(API_PRIMARY, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ action, ...data })
+        });
 
-                console.log('📥 Response status:', response.status);
-                
-                if (!response.ok) {
-                    const errorText = await response.text();
-                    console.error('Response error:', errorText);
-                    throw new Error(`HTTP ${response.status}`);
-                }
 
-                const result = await response.json();
-                console.log('✅ API Result:', result);
-                return result;
-            } catch (error) {
-                console.error('❌ API Error:', error);
-                throw error;
-            }
+        if (!response.ok) {
+            throw new Error('Primary HTTP ' + response.status);
         }
 
+        const result = await response.json();
+
+        
+        
+        return result;
+
+    } catch (err) {
+    }
+
+
+    const response2 = await fetch(API_BACKUP, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ action, ...data })
+    });
+
+
+    if (!response2.ok) {
+        throw new Error('Backup HTTP ' + response2.status);
+    }
+
+    const result2 = await response2.json();
+
+    return result2;
+}
         async function checkUserPermission(userId) {
     try {
-        console.log('🔍 Checking permission for user:', userId);
         
-        // 1. Gọi API kiểm tra support
         const supportResult = await callAPI('check_support', { user_id: userId });
         
-        // SỬA TẠI ĐÂY: Phải kiểm tra CẢ success và is_support
         if (!supportResult.success || supportResult.is_support === false) {
             return { 
                 allowed: false, 
@@ -284,7 +298,6 @@
             };
         }
         
-        // 2. Nếu đã là support, mới kiểm tra xem có phải Admin tối cao không
         const permissionResult = await callAPI('check_permission', { 
             user_id: userId, 
             api: 'admin_check' 
@@ -292,7 +305,6 @@
         
         const isAdmin = permissionResult.success && permissionResult.is_admin;
         
-        // Trả về kết quả xác thực
         return {
             allowed: true, 
             role: isAdmin ? 'admin' : 'support',
@@ -303,7 +315,6 @@
         };
         
     } catch (error) {
-        console.error('❌ Permission check error:', error);
         return {
             allowed: false,
             role: 'error',
@@ -326,16 +337,13 @@
                 return;
             }
 
-            // Hiển thị loading
             btnText.innerHTML = 'Đang kiểm tra quyền...';
             btnLoader.style.display = 'inline-block';
             loginBtn.disabled = true;
             hideAlert();
 
             try {
-                // Test API connection first
                 const testResult = await callAPI('test');
-                console.log('API test result:', testResult);
                 
                 if (!testResult.success) {
                     showAlert('API server không phản hồi. Vui lòng thử lại sau.');
@@ -346,18 +354,19 @@
                 const permission = await checkUserPermission(userId);
                 
                 if (permission.allowed) {
-                    // Lưu thông tin user vào localStorage
                     localStorage.setItem('auth_user_id', userId);
                     localStorage.setItem('auth_role', permission.role);
                     localStorage.setItem('auth_isAdmin', permission.isAdmin);
                     localStorage.setItem('auth_isSupport', permission.isSupport);
                     localStorage.setItem('auth_timestamp', Date.now());
                     
-                    // Hiển thị thông báo thành công
-                    const roleName = permission.role === 'admin' ? '👑 Quản trị viên' : '🔧 Hỗ trợ viên';
-                    showAlert(`Đăng nhập thành công với vai trò: ${roleName}`, 'success');
+                    const roleLabel = permission.role === 'admin' 
+    ? '<i class="fas fa-crown" style="color: #f8961e;"></i> Quản trị viên' 
+    : '<i class="fas fa-user-shield" style="color: #4361ee;"></i> Hỗ trợ viên';
+
+showAlert(`Đăng nhập thành công với vai trò: ${roleLabel}`, 'success');
+
                     
-                    // Chuyển hướng sau 1 giây
                     setTimeout(() => {
                         window.location.href = 'dashboard.html';
                     }, 1000);
@@ -367,7 +376,6 @@
                 }
             } catch (error) {
                 showAlert('Lỗi kết nối đến API server. Vui lòng thử lại!');
-                console.error('Login error:', error);
                 resetLoginButton();
             }
         });
@@ -382,32 +390,25 @@
             loginBtn.disabled = false;
         }
 
-        // Auto-focus on input
         document.getElementById('userId').focus();
         
-        // Check if already logged in
         if (localStorage.getItem('auth_user_id')) {
-            // Auto redirect if session is valid (less than 24 hours)
             const timestamp = localStorage.getItem('auth_timestamp');
             const hoursDiff = (Date.now() - timestamp) / (1000 * 60 * 60);
             
             if (hoursDiff < 24) {
                 window.location.href = 'dashboard.html';
             } else {
-                // Clear expired session
                 localStorage.clear();
             }
         }
         
-        // Auto test API on load
         window.addEventListener('load', async () => {
             try {
                 const testResult = await callAPI('test');
                 if (testResult.success) {
-                    console.log('✅ API is working!');
                 }
             } catch (error) {
-                console.warn('⚠️ API test failed on load:', error.message);
             }
         });
     </script>
