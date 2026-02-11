@@ -1642,73 +1642,92 @@ checkCurrentSession();
         showToast('Lỗi kết nối server', 'error');
     }
 }
-async function loadSupports() {
-    const tbody = document.getElementById('supportsTableBody');
-    
-    // 1. Hiển thị trạng thái đang tải (Loading)
-    tbody.innerHTML = `
-        <tr>
-            <td colspan="5" style="text-align: center; padding: 50px;">
-                <div class="loader" style="width: 40px; height: 40px; border-width: 4px;"></div>
-                <p style="margin-top: 15px; color: var(--gray); font-weight: 500;">Đang tải danh sách Support...</p>
-            </td>
-        </tr>
-    `;
-    
-    try {
-        // Giả lập độ trễ nhẹ để thấy loading nếu mạng quá nhanh (tùy chọn)
-        // await new Promise(resolve => setTimeout(resolve, 500));
+async function loadSupports(retry = 0, maxRetry = 3) {
+    if (!isAdminUser) {
+        showToast('Chỉ admin mới có thể xem danh sách support', 'error');
+        return;
+    }
 
+    const tbody = document.getElementById('supportsTableBody');
+    // Hiển thị loader phong cách loadKeys
+    tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:30px;"><span class="loader"></span><br>Đang tải dữ liệu Support...</td></tr>`;
+    
+    console.log(`🔄 Loading supports... (Lần thử: ${retry})`);
+
+    try {
         const result = await callAPI('get_supports', { admin_id: currentUserId });
         
         if (result.success) {
-            const supports = result.supports || [];
-            tbody.innerHTML = ''; // Xóa loader đi để chèn dữ liệu
+            let supports = result.supports || [];
+
+            // --- SẮP XẾP: AI ĐƯỢC THÊM GẦN ĐÂY LÊN ĐẦU ---
+            supports.sort((a, b) => {
+                return new Date(b.added_at) - new Date(a.added_at);
+            });
+
+            tbody.innerHTML = ''; // Xóa loader
             
             if (supports.length === 0) {
                 tbody.innerHTML = `
                     <tr>
                         <td colspan="5" class="empty-state">
-                            <i class="fas fa-headset" style="font-size: 40px; color: var(--gray-light);"></i>
-                            <p>Chưa có nhân viên hỗ trợ nào</p>
+                            <i class="fas fa-users"></i>
+                            <p>No support users found</p>
+                            <button class="btn btn-primary" onclick="showAddSupportModal()" style="margin-top: 10px;">
+                                <i class="fas fa-user-plus"></i> Add Support User
+                            </button>
                         </td>
-                    </tr>`;
+                    </tr>
+                `;
                 return;
             }
 
-            // 2. Đổ dữ liệu vào bảng
+            // Đổ dữ liệu vào bảng
             supports.forEach(sup => {
                 tbody.innerHTML += `
                     <tr>
                         <td><strong>${sup.user_id}</strong></td>
                         <td><span class="status-badge status-inactive">${sup.added_by || 'System'}</span></td>
                         <td>${new Date(sup.added_at).toLocaleDateString()}</td>
-                        <td><span class="status-badge status-active">Đang hoạt động</span></td>
+                        <td>${sup.app_count || 0}</td>
                         <td>
                             <div class="action-buttons">
-                                ${isAdminUser ? `
-                                <button class="action-btn delete" onclick="removeSupport('${sup.user_id}')" title="Xóa quyền">
-                                    <i class="fas fa-trash-alt"></i>
-                                </button>` : `<i class="fas fa-lock" title="Chỉ Admin"></i>`}
+                                <button class="action-btn delete" 
+                                        onclick="removeSupport('${sup.user_id}')" 
+                                        title="Remove Support" 
+                                        ${sup.user_id === currentUserId ? 'disabled style="opacity:0.5; cursor:not-allowed;"' : ''}>
+                                    <i class="fas fa-user-minus"></i>
+                                </button>
                             </div>
                         </td>
                     </tr>
                 `;
             });
         } else {
-            tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:20px; color:var(--danger);">${result.message}</td></tr>`;
-            showToast(result.message, 'error');
+            throw new Error(result.message || 'API trả về success: false');
         }
+
     } catch (error) {
+        console.warn('❌ Load supports failed:', error);
+        
+        // CƠ CHẾ RETRY Y HỆT LOADKEYS
+        if (retry < maxRetry) {
+            setTimeout(() => loadSupports(retry + 1, maxRetry), 1000);
+            return;
+        }
+        
+        // Nếu đã thử hết số lần mà vẫn lỗi
+        showToast('Lỗi kết nối server khi tải Support', 'error');
         tbody.innerHTML = `
             <tr>
                 <td colspan="5" style="text-align:center; padding:20px;">
-                    <i class="fas fa-exclamation-triangle" style="color:var(--warning);"></i> 
-                    Lỗi kết nối Server
+                    <i class="fas fa-exclamation-triangle" style="color:var(--danger);"></i> 
+                    Không thể tải dữ liệu sau ${maxRetry} lần thử.
                 </td>
             </tr>`;
     }
 }
+
 
 
 
