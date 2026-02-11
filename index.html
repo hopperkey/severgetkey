@@ -228,8 +228,8 @@
 
 
     <script>
-        const API_BACKUP = 'http://14.225.222.127:3000/health';
-        const API_PRIMARY  = 'http://14.225.222.127:3000/health';
+        const API_BACKUP = 'http://14.225.222.127:3000/api';
+        const API_PRIMARY  = 'http://14.225.222.127:3000/api';
         
         function showAlert(message, type = 'danger') {
     const alert = document.getElementById('alertMessage');
@@ -374,10 +374,10 @@ showAlert(`Đăng nhập thành công với vai trò: ${roleLabel}`, 'success');
                     showAlert(permission.message || 'Bạn không có quyền truy cập hệ thống!');
                     resetLoginButton();
                 }
-            } catch (error) {
-                showAlert('Lỗi kết nối đến API server. Vui lòng thử lại!');
-                resetLoginButton();
-            }
+} catch (error) {
+    showAlert('Lỗi kết nối API: ' + (error.message || error));
+    resetLoginButton();
+}
         });
 
         function resetLoginButton() {
