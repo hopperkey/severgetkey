@@ -1,247 +1,437 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KeyAuth Admin - Login</title>
-     <meta property="og:title" content="KeyAuth Hopper - Hệ Thống Quản Lý Uy Tín">
-<meta property="og:description" content="Hệ thống quản lý key và phân quyền chuyên nghiệp.">
-<meta property="og:image" content="https://techdavisk.store/IMG_20260205_223551.jpg?v=2">
-<meta property="og:image:secure_url" content="https://techdavisk.store/IMG_20260205_223551.jpg?v=2">
-<meta property="og:image:type" content="image/jpeg">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta property="og:url" content="https://techdavisk.store/">
-<meta property="og:type" content="website">
+&lt;!DOCTYPE html&gt;
 
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="KeyAuth Hopper - Hệ Thống Quản Lý Uy Tín">
-<meta name="twitter:description" content="Hệ thống quản lý key và phân quyền chuyên nghiệp.">
-<meta name="twitter:image" content="https://techdavisk.store/IMG_20260205_223551.jpg?v=2">
+&lt;html lang="vi"&gt;
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
+&lt;head&gt;
+
+    &lt;meta charset="UTF-8"&gt;
+
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+
+    &lt;title&gt;KeyAuth Admin - Login&lt;/title&gt;
+
+     &lt;meta property="og:title" content="KeyAuth Hopper - Hệ Thống Quản Lý Uy Tín"&gt;
+
+&lt;meta property="og:description" content="Hệ thống quản lý key và phân quyền chuyên nghiệp."&gt;
+
+&lt;meta property="og:image" content="https://techdavisk.store/IMG_20260205_223551.jpg?v=2"&gt;
+
+&lt;meta property="og:image:secure_url" content="https://techdavisk.store/IMG_20260205_223551.jpg?v=2"&gt;
+
+&lt;meta property="og:image:type" content="image/jpeg"&gt;
+
+&lt;meta property="og:image:width" content="1200"&gt;
+
+&lt;meta property="og:image:height" content="630"&gt;
+
+&lt;meta property="og:url" content="https://techdavisk.store/"&gt;
+
+&lt;meta property="og:type" content="website"&gt;
+
+&lt;meta name="twitter:card" content="summary_large_image"&gt;
+
+&lt;meta name="twitter:title" content="KeyAuth Hopper - Hệ Thống Quản Lý Uy Tín"&gt;
+
+&lt;meta name="twitter:description" content="Hệ thống quản lý key và phân quyền chuyên nghiệp."&gt;
+
+&lt;meta name="twitter:image" content="https://techdavisk.store/IMG_20260205_223551.jpg?v=2"&gt;
+
+    &lt;link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"&gt;
+
+    &lt;link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"&gt;
+
+    &lt;style&gt;
+
         :root {
+
             --primary: #4361ee;
+
             --primary-light: #4895ef;
+
             --secondary: #3a0ca3;
+
             --success: #4cc9f0;
+
             --danger: #f72585;
+
             --warning: #f8961e;
+
             --dark: #1a1a2e;
+
             --light: #f8f9fa;
+
             --gray: #6c757d;
+
             --gray-light: #e9ecef;
+
             --border-radius: 12px;
+
             --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+
             --transition: all 0.3s ease;
+
         }
 
         * {
+
             margin: 0;
+
             padding: 0;
+
             box-sizing: border-box;
+
         }
 
         body {
+
             font-family: 'Inter', sans-serif;
+
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+
             min-height: 100vh;
+
             display: flex;
+
             justify-content: center;
+
             align-items: center;
+
             padding: 20px;
+
         }
 
         .login-container {
+
             background: rgba(255, 255, 255, 0.95);
+
             backdrop-filter: blur(10px);
+
             border-radius: var(--border-radius);
+
             box-shadow: var(--box-shadow);
+
             padding: 40px;
+
             width: 100%;
+
             max-width: 400px;
+
             animation: fadeIn 0.8s ease;
+
         }
 
         .login-header {
+
             text-align: center;
+
             margin-bottom: 30px;
+
         }
 
         .login-header h1 {
+
             color: var(--dark);
+
             font-size: 28px;
+
             font-weight: 700;
+
             margin-bottom: 10px;
+
             background: linear-gradient(to right, var(--primary), var(--secondary));
+
             -webkit-background-clip: text;
+
             -webkit-text-fill-color: transparent;
+
         }
 
         .login-header p {
+
             color: var(--gray);
+
             font-size: 14px;
+
         }
 
         .form-group {
+
             margin-bottom: 20px;
+
         }
 
         .form-group label {
+
             display: block;
+
             margin-bottom: 8px;
+
             color: var(--dark);
+
             font-weight: 500;
+
             font-size: 14px;
+
         }
 
         .form-control {
+
             width: 100%;
+
             padding: 12px 15px;
+
             border: 2px solid var(--gray-light);
+
             border-radius: 8px;
+
             font-size: 14px;
+
             transition: var(--transition);
+
             background: white;
+
         }
 
         .form-control:focus {
+
             outline: none;
+
             border-color: var(--primary);
+
             box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+
         }
 
         .btn {
+
             display: inline-flex;
+
             align-items: center;
+
             justify-content: center;
+
             padding: 12px 24px;
+
             border: none;
+
             border-radius: 8px;
+
             font-size: 14px;
+
             font-weight: 600;
+
             cursor: pointer;
+
             transition: var(--transition);
+
             text-decoration: none;
+
         }
 
         .btn-primary {
+
             background: linear-gradient(to right, var(--primary), var(--primary-light));
+
             color: white;
+
             width: 100%;
+
         }
+
         
 
-
         .btn-primary:hover {
+
             transform: translateY(-2px);
+
             box-shadow: 0 10px 20px rgba(67, 97, 238, 0.2);
+
         }
 
         .btn i {
+
             margin-right: 8px;
+
         }
 
         .alert {
+
             padding: 12px 15px;
+
             border-radius: 8px;
+
             margin-bottom: 20px;
+
             font-size: 14px;
+
             display: none;
+
         }
 
         .alert-danger {
+
             background: rgba(247, 37, 133, 0.1);
+
             color: var(--danger);
+
             border: 1px solid rgba(247, 37, 133, 0.2);
+
         }
 
         .alert-success {
+
             background: rgba(76, 201, 240, 0.1);
+
             color: #0369a1;
+
             border: 1px solid rgba(76, 201, 240, 0.2);
+
         }
 
         @keyframes fadeIn {
+
             from { opacity: 0; transform: translateY(20px); }
+
             to { opacity: 1; transform: translateY(0); }
+
         }
 
         .loader {
+
             display: inline-block;
+
             width: 20px;
+
             height: 20px;
+
             border: 3px solid #f3f3f3;
+
             border-top: 3px solid var(--primary);
+
             border-radius: 50%;
+
             animation: spin 1s linear infinite;
+
             margin-right: 8px;
+
         }
 
         @keyframes spin {
+
             0% { transform: rotate(0deg); }
+
             100% { transform: rotate(360deg); }
+
         }
 
         .role-info {
+
             margin-top: 20px;
+
             padding: 15px;
+
             background: var(--gray-light);
+
             border-radius: var(--border-radius);
+
             font-size: 12px;
+
             color: var(--gray);
+
         }
 
         .role-info ul {
+
             margin: 10px 0 0 20px;
+
         }
 
         .role-info li {
+
             margin-bottom: 5px;
+
         }
-    </style>
-</head>
-<body>
-    <div class="login-container" id="loginContainer">
-        <div class="login-header">
-            <h1><i class="fas fa-key"></i> KeyAuth Hopper</h1>
-            <p>Đăng nhập bằng ID User System</p>
-        </div>
+
+    &lt;/style&gt;
+
+&lt;/head&gt;
+
+&lt;body&gt;
+
+    &lt;div class="login-container" id="loginContainer"&gt;
+
+        &lt;div class="login-header"&gt;
+
+            &lt;h1&gt;&lt;i class="fas fa-key"&gt;&lt;/i&gt; KeyAuth Hopper&lt;/h1&gt;
+
+            &lt;p&gt;Đăng nhập bằng ID User System&lt;/p&gt;
+
+        &lt;/div&gt;
+
         
-        <div class="alert" id="alertMessage"></div>
+
+        &lt;div class="alert" id="alertMessage"&gt;&lt;/div&gt;
+
         
-        <form id="loginForm">
-            <div class="form-group">
-                <label for="userId"><i class="fas fa-user"></i> ID User System</label>
-<input
+
+        &lt;form id="loginForm"&gt;
+
+            &lt;div class="form-group"&gt;
+
+                &lt;label for="userId"&gt;&lt;i class="fas fa-user"&gt;&lt;/i&gt; ID User System&lt;/label&gt;
+
+&lt;input
+
   type="text"
+
   id="userId"
+
   class="form-control"
+
   placeholder="Nhập ID User System của bạn"
-  required>
-                <small style="color: var(--gray); font-size: 12px; margin-top: 5px; display: block;">
+
+  required&gt;
+
+                &lt;small style="color: var(--gray); font-size: 12px; margin-top: 5px; display: block;"&gt;
+
                     Liên hệ Admin để nhận ID User System
-                </small>
-            </div>
+
+                &lt;/small&gt;
+
+            &lt;/div&gt;
+
             
-            <button type="submit" class="btn btn-primary" id="loginBtn">
-                <span id="btnText"><i class="fas fa-sign-in-alt"></i> Đăng nhập</span>
-                <span id="btnLoader" class="loader" style="display: none;"></span>
-            </button>
-        </form>
+
+            &lt;button type="submit" class="btn btn-primary" id="loginBtn"&gt;
+
+                &lt;span id="btnText"&gt;&lt;i class="fas fa-sign-in-alt"&gt;&lt;/i&gt; Đăng nhập&lt;/span&gt;
+
+                &lt;span id="btnLoader" class="loader" style="display: none;"&gt;&lt;/span&gt;
+
+            &lt;/button&gt;
+
+        &lt;/form&gt;
+
         
-        <div class="role-info">
-    <strong><i class="fas fa-shield-halved"></i> Thông tin phân quyền:</strong>
-    <ul>
-        <li><i class="fas fa-crown" style="color: #f8961e;"></i> <strong>Admin:</strong> Toàn quyền quản lý hệ thống</li>
-        <li><i class="fas fa-user-gear" style="color: #4361ee;"></i> <strong>Support:</strong> Chỉ quản lý apps/keys của mình</li>
-        <li><i class="fas fa-user-slash" style="color: #f72585;"></i> <strong>User:</strong> Không có quyền truy cập</li>
-    </ul>
-</div>
 
+        &lt;div class="role-info"&gt;
 
-   <script src="login.js"></script>
-</body>
-</html>
+    &lt;strong&gt;&lt;i class="fas fa-shield-halved"&gt;&lt;/i&gt; Thông tin phân quyền:&lt;/strong&gt;
+
+    &lt;ul&gt;
+
+        &lt;li&gt;&lt;i class="fas fa-crown" style="color: #f8961e;"&gt;&lt;/i&gt; &lt;strong&gt;Admin:&lt;/strong&gt; Toàn quyền quản lý hệ thống&lt;/li&gt;
+
+        &lt;li&gt;&lt;i class="fas fa-user-gear" style="color: #4361ee;"&gt;&lt;/i&gt; &lt;strong&gt;Support:&lt;/strong&gt; Chỉ quản lý apps/keys của mình&lt;/li&gt;
+
+        &lt;li&gt;&lt;i class="fas fa-user-slash" style="color: #f72585;"&gt;&lt;/i&gt; &lt;strong&gt;User:&lt;/strong&gt; Không có quyền truy cập&lt;/li&gt;
+
+    &lt;/ul&gt;
+
+&lt;/div&gt;
+
+   &lt;script src="login.js"&gt;&lt;/script&gt;
+
+&lt;/body&gt;
+
+&lt;/html&gt;
