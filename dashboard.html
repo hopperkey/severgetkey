@@ -1650,7 +1650,7 @@ async function loadSupports(retry = 0, maxRetry = 3) {
 
     const tbody = document.getElementById('supportsTableBody');
     // Hiển thị loader phong cách loadKeys
-    tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:30px;"><span class="loader"></span><br>Đang tải dữ liệu Support...</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding:30px;"><span class="loader"></span><br>Đang tải dữ liệu...</td></tr>`;
     
     console.log(`🔄 Loading supports... (Lần thử: ${retry})`);
 
@@ -1689,7 +1689,7 @@ async function loadSupports(retry = 0, maxRetry = 3) {
                         <td><strong>${sup.user_id}</strong></td>
                         <td><span class="status-badge status-inactive">${sup.added_by || 'System'}</span></td>
                         <td>${new Date(sup.added_at).toLocaleDateString()}</td>
-                        <td>${sup.app_count || 0}</td>
+                        <td>2</td>
                         <td>
                             <div class="action-buttons">
                                 <button class="action-btn delete" 
