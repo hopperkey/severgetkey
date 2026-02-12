@@ -4,22 +4,204 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KeyAuth Admin - Login</title>
-    <meta property="og:title" content="KeyAuth Hopper - Hệ Thống Quản Lý Uy Tín">
-    <meta property="og:description" content="Hệ thống quản lý key và phân quyền chuyên nghiệp.">
-    <meta property="og:image" content="https://techdavisk.store/IMG_20260205_223551.jpg?v=2">
-    <meta property="og:image:secure_url" content="https://techdavisk.store/IMG_20260205_223551.jpg?v=2">
-    <meta property="og:image:type" content="image/jpeg">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:url" content="https://techdavisk.store/">
-    <meta property="og:type" content="website">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="KeyAuth Hopper - Hệ Thống Quản Lý Uy Tín">
-    <meta name="twitter:description" content="Hệ thống quản lý key và phân quyền chuyên nghiệp.">
-    <meta name="twitter:image" content="https://techdavisk.store/IMG_20260205_223551.jpg?v=2">
+     <meta property="og:title" content="KeyAuth Hopper - Hệ Thống Quản Lý Uy Tín">
+<meta property="og:description" content="Hệ thống quản lý key và phân quyền chuyên nghiệp.">
+<meta property="og:image" content="https://techdavisk.store/IMG_20260205_223551.jpg?v=2">
+<meta property="og:image:secure_url" content="https://techdavisk.store/IMG_20260205_223551.jpg?v=2">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://techdavisk.store/">
+<meta property="og:type" content="website">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="KeyAuth Hopper - Hệ Thống Quản Lý Uy Tín">
+<meta name="twitter:description" content="Hệ thống quản lý key và phân quyền chuyên nghiệp.">
+<meta name="twitter:image" content="https://techdavisk.store/IMG_20260205_223551.jpg?v=2">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>:root{--primary:#4361ee;--primary-light:#4895ef;--secondary:#3a0ca3;--success:#4cc9f0;--danger:#f72585;--warning:#f8961e;--dark:#1a1a2e;--light:#f8f9fa;--gray:#6c757d;--gray-light:#e9ecef;--border-radius:12px;--box-shadow:0 10px 30px rgba(0,0,0,.08);--transition:all .3s ease}*{margin:0;padding:0;box-sizing:border-box}body{font-family:Inter,sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;display:flex;justify-content:center;align-items:center;padding:20px}.login-container{background:rgba(255,255,255,.95);backdrop-filter:blur(10px);border-radius:var(--border-radius);box-shadow:var(--box-shadow);padding:40px;width:100%;max-width:400px;animation:fadeIn .8s ease}.login-header{text-align:center;margin-bottom:30px}.login-header h1{color:var(--dark);font-size:28px;font-weight:700;margin-bottom:10px;background:linear-gradient(to right,var(--primary),var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent}.login-header p{color:var(--gray);font-size:14px}.form-group{margin-bottom:20px}.form-group label{display:block;margin-bottom:8px;color:var(--dark);font-weight:500;font-size:14px}.form-control{width:100%;padding:12px 15px;border:2px solid var(--gray-light);border-radius:8px;font-size:14px;transition:var(--transition);background:#fff}.form-control:focus{outline:0;border-color:var(--primary);box-shadow:0 0 0 3px rgba(67,97,238,.1)}.btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 24px;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;transition:var(--transition);text-decoration:none}.btn-primary{background:linear-gradient(to right,var(--primary),var(--primary-light));color:#fff;width:100%}.btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 20px rgba(67,97,238,.2)}.btn i{margin-right:8px}.alert{padding:12px 15px;border-radius:8px;margin-bottom:20px;font-size:14px;display:none}.alert-danger{background:rgba(247,37,133,.1);color:var(--danger);border:1px solid rgba(247,37,133,.2)}.alert-success{background:rgba(76,201,240,.1);color:#0369a1;border:1px solid rgba(76,201,240,.2)}@keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}.loader{display:inline-block;width:20px;height:20px;border:3px solid #f3f3f3;border-top:3px solid var(--primary);border-radius:50%;animation:spin 1s linear infinite;margin-right:8px}@keyframes spin{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}.role-info{margin-top:20px;padding:15px;background:var(--gray-light);border-radius:var(--border-radius);font-size:12px;color:var(--gray)}.role-info ul{margin:10px 0 0 20px}.role-info li{margin-bottom:5px}</style>
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-light: #4895ef;
+            --secondary: #3a0ca3;
+            --success: #4cc9f0;
+            --danger: #f72585;
+            --warning: #f8961e;
+            --dark: #1a1a2e;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+            --gray-light: #e9ecef;
+            --border-radius: 12px;
+            --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .login-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 40px;
+            width: 100%;
+            max-width: 400px;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .login-header h1 {
+            color: var(--dark);
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .login-header p {
+            color: var(--gray);
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--dark);
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--gray-light);
+            border-radius: 8px;
+            font-size: 14px;
+            transition: var(--transition);
+            background: white;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(to right, var(--primary), var(--primary-light));
+            color: white;
+            width: 100%;
+        }
+        
+
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(67, 97, 238, 0.2);
+        }
+
+        .btn i {
+            margin-right: 8px;
+        }
+
+        .alert {
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            display: none;
+        }
+
+        .alert-danger {
+            background: rgba(247, 37, 133, 0.1);
+            color: var(--danger);
+            border: 1px solid rgba(247, 37, 133, 0.2);
+        }
+
+        .alert-success {
+            background: rgba(76, 201, 240, 0.1);
+            color: #0369a1;
+            border: 1px solid rgba(76, 201, 240, 0.2);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .loader {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 8px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .role-info {
+            margin-top: 20px;
+            padding: 15px;
+            background: var(--gray-light);
+            border-radius: var(--border-radius);
+            font-size: 12px;
+            color: var(--gray);
+        }
+
+        .role-info ul {
+            margin: 10px 0 0 20px;
+        }
+
+        .role-info li {
+            margin-bottom: 5px;
+        }
+    </style>
 </head>
 <body>
     <div class="login-container" id="loginContainer">
@@ -27,27 +209,223 @@
             <h1><i class="fas fa-key"></i> KeyAuth Hopper</h1>
             <p>Đăng nhập bằng ID User System</p>
         </div>
+        
         <div class="alert" id="alertMessage"></div>
+        
         <form id="loginForm">
             <div class="form-group">
                 <label for="userId"><i class="fas fa-user"></i> ID User System</label>
-                <input type="text" id="userId" class="form-control" placeholder="Nhập ID User System của bạn" required>
-                <small style="color:var(--gray);font-size:12px;margin-top:5px;display:block">Liên hệ Admin để nhận ID User System</small>
+<input
+  type="text"
+  id="userId"
+  class="form-control"
+  placeholder="Nhập ID User System của bạn"
+  required>
+                <small style="color: var(--gray); font-size: 12px; margin-top: 5px; display: block;">
+                    Liên hệ Admin để nhận ID User System
+                </small>
             </div>
+            
             <button type="submit" class="btn btn-primary" id="loginBtn">
                 <span id="btnText"><i class="fas fa-sign-in-alt"></i> Đăng nhập</span>
-                <span id="btnLoader" class="loader" style="display:none"></span>
+                <span id="btnLoader" class="loader" style="display: none;"></span>
             </button>
         </form>
+        
         <div class="role-info">
-            <strong><i class="fas fa-shield-halved"></i> Thông tin phân quyền:</strong>
-            <ul>
-                <li><i class="fas fa-crown" style="color:#f8961e"></i> <strong>Admin:</strong> Toàn quyền quản lý hệ thống</li>
-                <li><i class="fas fa-user-gear" style="color:#4361ee"></i> <strong>Support:</strong> Chỉ quản lý apps/keys của mình</li>
-                <li><i class="fas fa-user-slash" style="color:#f72585"></i> <strong>User:</strong> Không có quyền truy cập</li>
-            </ul>
-        </div>
-    </div>
-    <script>!function(){var _0x5e8a=['aHR0cHM6Ly9waGF0ZGV2YXV0aHZpcC5uZXRsaWZ5LmFwcC8ubmV0bGlmeS9mdW5jdGlvbnMvYXV0aA==','aHR0cHM6Ly9zZXZlcmtleXZpcC1rZHFwLnZlcmNlbC5hcHAv','YWxlcnRNZXNzYWdl','YWxlcnQ=','YWxlcnQtZGFuZ2Vy','YWxlcnQtc3VjY2Vzcw==','bG9naW5Gb3Jt','YnRuVGV4dA==','YnRuTG9hZGVy','bG9naW5CdG4=','dXNlcklk','dGVzdA==','Y2hlY2tfc3VwcG9ydA==','dXNlcl9pZA==','c3VjY2Vzcw==','aXNfc3VwcG9ydA==','Y2hlY2tfcGVybWlzc2lvbg==','YXBp','YWRtaW5fY2hlY2s=','aXNfYWRtaW4=','YXBwX2NvdW50','bWF4X2FwcHM=','YXV0aF91c2VyX2lk','YXV0aF9yb2xl','YXV0aF9pc0FkbWlu','YXV0aF9pc1N1cHBvcnQ=','YXV0aF90aW1lc3RhbXA=','ZGFzaGJvYXJkLmh0bWw=','UE9TVA==','Q29udGVudC1UeXBl','YXBwbGljYXRpb24vanNvbg==','YWN0aW9u'];(function(_0x4f2a18,_0x5e8a3d){var _0x2b51f8=function(_0x3d8c4a){while(--_0x3d8c4a){_0x4f2a18['push'](_0x4f2a18['shift']());}};_0x2b51f8(++_0x5e8a3d);}(_0x5e8a,0x1a3));var _0x2b51=function(_0x4f2a18,_0x5e8a3d){_0x4f2a18=_0x4f2a18-0x0;var _0x2b51f8=_0x5e8a[_0x4f2a18];if(_0x2b51['initialized']===undefined){(function(){var _0x3d8c4a=function(){var _0x580e7e;try{_0x580e7e=Function('return\x20(function()\x20'+'{}.constructor(\x22return\x20this\x22)(\x20)'+');')();}catch(_0x5a4b1a){_0x580e7e=window;}return _0x580e7e;};var _0x1f4e5c=_0x3d8c4a();var _0x4a8b2d='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';_0x1f4e5c['atob']||(_0x1f4e5c['atob']=function(_0x3e7c8f){var _0x2d6b1e=String(_0x3e7c8f)['replace'](/=+$/,'');for(var _0x1c9a0b=0x0,_0x5f3d2a,_0x4e8c1b,_0x3a7d0c=0x0,_0x2f8e1d='';_0x4e8c1b=_0x2d6b1e['charAt'](_0x3a7d0c++);~_0x4e8c1b&&(_0x5f3d2a=_0x1c9a0b%0x4?_0x5f3d2a*0x40+_0x4e8c1b:_0x4e8c1b,_0x1c9a0b++%0x4)?_0x2f8e1d+=String['fromCharCode'](0xff&_0x5f3d2a>>(-0x2*_0x1c9a0b&0x6)):0x0){_0x4e8c1b=_0x4a8b2d['indexOf'](_0x4e8c1b);}return _0x2f8e1d;});}());_0x2b51['base64DecodeUnicode']=function(_0x5c1f2e){var _0x3b8d1f=atob(_0x5c1f2e);var _0x4d9e0c=[];for(var _0x2a7c3d=0x0,_0x1e5b4a=_0x3b8d1f['length'];_0x2a7c3d<_0x1e5b4a;_0x2a7c3d++){_0x4d9e0c+='%'+('00'+_0x3b8d1f['charCodeAt'](_0x2a7c3d)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x4d9e0c);};_0x2b51['data']={};_0x2b51['initialized']=!![];}var _0x580e7e=_0x2b51['data'][_0x4f2a18];if(_0x580e7e===undefined){_0x2b51f8=_0x2b51['base64DecodeUnicode'](_0x2b51f8);_0x2b51['data'][_0x4f2a18]=_0x2b51f8;}else{_0x2b51f8=_0x580e7e;}return _0x2b51f8;};const API_B=_0x2b51('0x0'),API_P=_0x2b51('0x1');function showAlert(_0x1f4a2c,_0x3e8c1d='danger'){const _0x4b9e3c=document['getElementById'](_0x2b51('0x2'));_0x4b9e3c['innerHTML']=_0x1f4a2c;_0x4b9e3c['className']=_0x2b51('0x3')+('-'+_0x3e8c1d);_0x4b9e3c['style']['display']='block';}function hideAlert(){document['getElementById'](_0x2b51('0x2'))['style']['display']='none';}async function callAPI(_0x2c7d4e,_0x1d8e5f={}){try{const _0x4f3a8d=await fetch(API_P,{'method':_0x2b51('0x1c'),'headers':{[_0x2b51('0x1d')]:_0x2b51('0x1e')},'body':JSON['stringify']({[_0x2b51('0x1f')]:_0x2c7d4e,..._0x1d8e5f})});if(!_0x4f3a8d['ok']){throw new Error('Primary\x20HTTP\x20'+_0x4f3a8d['status']);}const _0x2e9f6c=await _0x4f3a8d['json']();return _0x2e9f6c;}catch(_0x3d7c5d){}const _0x1a8b9e=await fetch(API_B,{'method':_0x2b51('0x1c'),'headers':{[_0x2b51('0x1d')]:_0x2b51('0x1e')},'body':JSON['stringify']({[_0x2b51('0x1f')]:_0x2c7d4e,..._0x1d8e5f})});if(!_0x1a8b9e['ok']){throw new Error('Backup\x20HTTP\x20'+_0x1a8b9e['status']);}const _0x5f6e8a=await _0x1a8b9e['json']();return _0x5f6e8a;}async function checkUserPermission(_0x3c8f1e){try{const _0x2f7d3a=await callAPI(_0x2b51('0xc'),{[_0x2b51('0xd')]:_0x3c8f1e});if(!_0x2f7d3a[_0x2b51('0xe')]||_0x2f7d3a[_0x2b51('0xf')]===![]){return{'allowed':![],'role':'user','message':'ID\x20này\x20không\x20có\x20trong\x20danh\x20sách\x20hỗ\x20trợ!'};}const _0x4e6f2b=await callAPI(_0x2b51('0x10'),{[_0x2b51('0xd')]:_0x3c8f1e,[_0x2b51('0x11')]:_0x2b51('0x12')});const _0x1c8d5c=_0x4e6f2b[_0x2b51('0xe')]&&_0x4e6f2b[_0x2b51('0x13')];return{'allowed':!![],'role':_0x1c8d5c?'admin':'support','isAdmin':_0x1c8d5c,'isSupport':!![],'appCount':_0x4e6f2b[_0x2b51('0x14')]||0x0,'maxApps':_0x4e6f2b[_0x2b51('0x15')]||0x0};}catch(_0x2d8e6f){return{'allowed':![],'role':'error','message':'Lỗi\x20kết\x20nối\x20server\x20khi\x20kiểm\x20tra\x20quyền.'};}}document['getElementById'](_0x2b51('0x6'))['addEventListener']('submit',async function(_0x5a7c8e){_0x5a7c8e['preventDefault']();const _0x3e9f1d=document['getElementById'](_0x2b51('0xa'))['value']['trim'](),_0x4f8a2e=document['getElementById'](_0x2b51('0x9')),_0x2c6d3f=document['getElementById'](_0x2b51('0x7')),_0x1d7e4e=document['getElementById'](_0x2b51('0x8'));if(!_0x3e9f1d){showAlert('Vui\x20lòng\x20nhập\x20Discord\x20ID');return;}_0x2c6d3f['innerHTML']='Đang\x20kiểm\x20tra\x20quyền...';_0x1d7e4e['style']['display']='inline-block';_0x4f8a2e['disabled']=!![];hideAlert();try{const _0x3f8b1e=await callAPI(_0x2b51('0xb'));if(!_0x3f8b1e[_0x2b51('0xe')]){showAlert('API\x20server\x20không\x20phản\x20hồi.\x20Vui\x20lòng\x20thử\x20lại\x20sau.');resetLoginButton();return;}const _0x2e8c7d=await checkUserPermission(_0x3e9f1d);if(_0x2e8c7d['allowed']){localStorage['setItem'](_0x2b51('0x16'),_0x3e9f1d);localStorage['setItem'](_0x2b51('0x17'),_0x2e8c7d['role']);localStorage['setItem'](_0x2b51('0x18'),_0x2e8c7d['isAdmin']);localStorage['setItem'](_0x2b51('0x19'),_0x2e8c7d['isSupport']);localStorage['setItem'](_0x2b51('0x1a'),Date['now']());const _0x1f9e2e=_0x2e8c7d['role']==='admin'?'<i\x20class=\x22fas\x20fa-crown\x22\x20style=\x22color:\x20#f8961e;\x22></i>\x20Quản\x20trị\x20viên':'<i\x20class=\x22fas\x20fa-user-shield\x22\x20style=\x22color:\x20#4361ee;\x22></i>\x20Hỗ\x20trợ\x20viên';showAlert('Đăng\x20nhập\x20thành\x20công\x20với\x20vai\x20trò:\x20'+_0x1f9e2e,'success');setTimeout(()=>{window['location']['href']=_0x2b51('0x1b');},0x3e8);}else{showAlert(_0x2e8c7d['message']||'Bạn\x20không\x20có\x20quyền\x20truy\x20cập\x20hệ\x20thống!');resetLoginButton();}}catch(_0x4d7e8f){showAlert('Lỗi\x20kết\x20nối\x20API:\x20'+(_0x4d7e8f['message']||_0x4d7e8f));resetLoginButton();}});function resetLoginButton(){const _0x5c8e1f=document['getElementById'](_0x2b51('0x7')),_0x3d9f2e=document['getElementById'](_0x2b51('0x8')),_0x2a8c3d=document['getElementById'](_0x2b51('0x9'));_0x5c8e1f['innerHTML']='<i\x20class=\x22fas\x20fa-sign-in-alt\x22></i>\x20Đăng\x20nhập';_0x3d9f2e['style']['display']='none';_0x2a8c3d['disabled']=![];}document['getElementById'](_0x2b51('0xa'))['focus']();if(localStorage['getItem'](_0x2b51('0x16'))){const _0x4e9f3e=localStorage['getItem'](_0x2b51('0x1a')),_0x1c7d5f=(Date['now']()-_0x4e9f3e)/(0x3e8*0x3c*0x3c);if(_0x1c7d5f<0x18){window['location']['href']=_0x2b51('0x1b');}else{localStorage['clear']();}}window['addEventListener']('load',async()=>{try{const _0x2f8e4d=await callAPI(_0x2b51('0xb'));if(_0x2f8e4d[_0x2b51('0xe')]);}catch(_0x3e8f1e){}});}();</script>
+    <strong><i class="fas fa-shield-halved"></i> Thông tin phân quyền:</strong>
+    <ul>
+        <li><i class="fas fa-crown" style="color: #f8961e;"></i> <strong>Admin:</strong> Toàn quyền quản lý hệ thống</li>
+        <li><i class="fas fa-user-gear" style="color: #4361ee;"></i> <strong>Support:</strong> Chỉ quản lý apps/keys của mình</li>
+        <li><i class="fas fa-user-slash" style="color: #f72585;"></i> <strong>User:</strong> Không có quyền truy cập</li>
+    </ul>
+</div>
+
+
+    <script>
+        const API_BACKUP =  'https://phatdevauthvip.netlify.app/.netlify/functions/auth';
+        const API_PRIMARY  = 'https://severkeyvip-kdqp.vercel.app/';
+        
+        function showAlert(message, type = 'danger') {
+    const alert = document.getElementById('alertMessage');
+    alert.innerHTML = message; 
+    alert.className = `alert alert-${type}`;
+    alert.style.display = 'block';
+}
+
+
+        function hideAlert() {
+            document.getElementById('alertMessage').style.display = 'none';
+        }
+async function callAPI(action, data = {}) {
+
+    try {
+        const response = await fetch(API_PRIMARY, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ action, ...data })
+        });
+
+
+        if (!response.ok) {
+            throw new Error('Primary HTTP ' + response.status);
+        }
+
+        const result = await response.json();
+
+        
+        
+        return result;
+
+    } catch (err) {
+    }
+
+
+    const response2 = await fetch(API_BACKUP, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ action, ...data })
+    });
+
+
+    if (!response2.ok) {
+        throw new Error('Backup HTTP ' + response2.status);
+    }
+
+    const result2 = await response2.json();
+
+    return result2;
+}
+        async function checkUserPermission(userId) {
+    try {
+        
+        const supportResult = await callAPI('check_support', { user_id: userId });
+        
+        if (!supportResult.success || supportResult.is_support === false) {
+            return { 
+                allowed: false, 
+                role: 'user',
+                message: 'ID này không có trong danh sách hỗ trợ!'
+            };
+        }
+        
+        const permissionResult = await callAPI('check_permission', { 
+            user_id: userId, 
+            api: 'admin_check' 
+        });
+        
+        const isAdmin = permissionResult.success && permissionResult.is_admin;
+        
+        return {
+            allowed: true, 
+            role: isAdmin ? 'admin' : 'support',
+            isAdmin: isAdmin,
+            isSupport: true, // Chắc chắn là true vì đã vượt qua check ở trên
+            appCount: permissionResult.app_count || 0,
+            maxApps: permissionResult.max_apps || 0
+        };
+        
+    } catch (error) {
+        return {
+            allowed: false,
+            role: 'error',
+            message: 'Lỗi kết nối server khi kiểm tra quyền.'
+        };
+    }
+}
+
+
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const userId = document.getElementById('userId').value.trim();
+            const loginBtn = document.getElementById('loginBtn');
+            const btnText = document.getElementById('btnText');
+            const btnLoader = document.getElementById('btnLoader');
+            
+            if (!userId) {
+                showAlert('Vui lòng nhập Discord ID');
+                return;
+            }
+
+            btnText.innerHTML = 'Đang kiểm tra quyền...';
+            btnLoader.style.display = 'inline-block';
+            loginBtn.disabled = true;
+            hideAlert();
+
+            try {
+                const testResult = await callAPI('test');
+                
+                if (!testResult.success) {
+                    showAlert('API server không phản hồi. Vui lòng thử lại sau.');
+                    resetLoginButton();
+                    return;
+                }
+                
+                const permission = await checkUserPermission(userId);
+                
+                if (permission.allowed) {
+                    localStorage.setItem('auth_user_id', userId);
+                    localStorage.setItem('auth_role', permission.role);
+                    localStorage.setItem('auth_isAdmin', permission.isAdmin);
+                    localStorage.setItem('auth_isSupport', permission.isSupport);
+                    localStorage.setItem('auth_timestamp', Date.now());
+                    
+                    const roleLabel = permission.role === 'admin' 
+    ? '<i class="fas fa-crown" style="color: #f8961e;"></i> Quản trị viên' 
+    : '<i class="fas fa-user-shield" style="color: #4361ee;"></i> Hỗ trợ viên';
+
+showAlert(`Đăng nhập thành công với vai trò: ${roleLabel}`, 'success');
+
+                    
+                    setTimeout(() => {
+                        window.location.href = 'dashboard.html';
+                    }, 1000);
+                } else {
+                    showAlert(permission.message || 'Bạn không có quyền truy cập hệ thống!');
+                    resetLoginButton();
+                }
+} catch (error) {
+    showAlert('Lỗi kết nối API: ' + (error.message || error));
+    resetLoginButton();
+}
+        });
+
+        function resetLoginButton() {
+            const btnText = document.getElementById('btnText');
+            const btnLoader = document.getElementById('btnLoader');
+            const loginBtn = document.getElementById('loginBtn');
+            
+            btnText.innerHTML = '<i class="fas fa-sign-in-alt"></i> Đăng nhập';
+            btnLoader.style.display = 'none';
+            loginBtn.disabled = false;
+        }
+
+        document.getElementById('userId').focus();
+        
+        if (localStorage.getItem('auth_user_id')) {
+            const timestamp = localStorage.getItem('auth_timestamp');
+            const hoursDiff = (Date.now() - timestamp) / (1000 * 60 * 60);
+            
+            if (hoursDiff < 24) {
+                window.location.href = 'dashboard.html';
+            } else {
+                localStorage.clear();
+            }
+        }
+        
+        window.addEventListener('load', async () => {
+            try {
+                const testResult = await callAPI('test');
+                if (testResult.success) {
+                }
+            } catch (error) {
+            }
+        });
+    </script>
 </body>
 </html>
